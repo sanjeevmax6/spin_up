@@ -1,0 +1,37 @@
+[project]
+name = "jobpipe"
+version = "0.1.0"
+description = "Job application personalization pipeline CLI"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+  "beautifulsoup4>=4.12.0",
+  "google-api-python-client>=2.170.0",
+  "google-auth>=2.40.0",
+  "openai>=1.76.0",
+  "pydantic>=2.7.0",
+  "pydantic-settings>=2.2.1",
+  "python-docx>=1.1.2",
+  "python-dotenv>=1.0.1",
+  "pyyaml>=6.0.1",
+  "reportlab>=4.2.0",
+  "requests>=2.32.0",
+  "typer>=0.12.3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.2.0",
+]
+
+[project.scripts]
+jobpipe = "jobpipe.cli:app"
+
+[build-system]
+requires = ["setuptools>=69.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["jobpipe*"]
+

@@ -1,0 +1,11 @@
+hard_disqualifiers:
+  - onsite-only
+  - unpaid
+style_constraints:
+  - concise, specific, measurable
+  - no buzzword stuffing
+banned_claims:
+  - "expert in everything"
+must_include_constraints:
+  - "tie achievements to measurable outcomes when possible"
+

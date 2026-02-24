@@ -1,0 +1,14 @@
+# Local secrets/config
+.env
+brevity-cloud-89d39b430cfc.json
+
+# Generated artifacts
+outputs/
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+*.egg-info/
+

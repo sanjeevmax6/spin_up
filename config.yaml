@@ -1,0 +1,34 @@
+sheet_id: "1npxLaQ4p69xWaJfdjf6Zj8NdvOLDzdMCNvSz8oUcwaA"
+tab: "4.0"
+output_root: "outputs"
+model: "gpt-4.1-mini"
+row_lookup_mode: "sno" # "sno" uses Sno column; "sheet_row" uses literal sheet row numbers
+row_id_column: "sno"
+row_id_column_index: 3 # 1-based index. C = 3
+header_row_number: null # set explicit row number if auto-detect picks wrong header row
+max_scan_rows: 5000
+header_search_rows: 50
+column_aliases:
+  row_id: ["sno"]
+  company: ["Companies"]
+  role_title: ["Type"]
+  job_posting_url: ["Roles"]
+  job_description_url: ["roles", "job_description_url"]
+  location: ["location"]
+  notes: ["notes", "referrals", "keywords"]
+  priority: ["priority", "keywords"]
+  status:
+    [
+      "sanjeev - date/applied(color)",
+      "reach out status",
+      "swetha - date/applied(color)",
+      "status",
+    ]
+  recruiter_name: ["linkedin recruiters connect", "recruiter_name"]
+  employment_type: ["full time/intern", "fulltime/internship"]
+baseline_profile: |
+  Add your baseline profile here:
+  - Years of experience
+  - Core technologies
+  - Key project impact metrics
+  - Target domains
