@@ -2,6 +2,11 @@ sheet_id: "1npxLaQ4p69xWaJfdjf6Zj8NdvOLDzdMCNvSz8oUcwaA"
 tab: "4.0"
 output_root: "outputs"
 model: "gpt-4.1-mini"
+prompt_dir: "jobpipe/prompts"
+resume_context_path: "resume_context.yaml"
+restrictions_path: "restrictions.yaml"
+non_resume_node_retries: 2
+non_resume_retry_backoff_seconds: 1.0
 row_lookup_mode: "sno" # "sno" uses Sno column; "sheet_row" uses literal sheet row numbers
 row_id_column: "sno"
 row_id_column_index: 3 # 1-based index. C = 3
@@ -13,19 +18,7 @@ column_aliases:
   company: ["Companies"]
   role_title: ["Type"]
   job_posting_url: ["Roles"]
-  job_description_url: ["roles", "job_description_url"]
-  location: ["location"]
-  notes: ["notes", "referrals", "keywords"]
-  priority: ["priority", "keywords"]
-  status:
-    [
-      "sanjeev - date/applied(color)",
-      "reach out status",
-      "swetha - date/applied(color)",
-      "status",
-    ]
-  recruiter_name: ["linkedin recruiters connect", "recruiter_name"]
-  employment_type: ["full time/intern", "fulltime/internship"]
+  location: ["Location"]
 baseline_profile: |
   Add your baseline profile here:
   - Years of experience

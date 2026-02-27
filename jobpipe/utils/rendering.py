@@ -36,7 +36,7 @@ def write_docx(path: Path, content: str) -> Path:
 def write_pdf(path: Path, content: str) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     c = canvas.Canvas(str(path), pagesize=LETTER)
-    width, height = LETTER
+    _, height = LETTER
     margin = inch
     y = height - margin
     c.setFont("Helvetica", 11)

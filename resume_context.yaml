@@ -1,0 +1,113 @@
+profile_summary: |
+  Portfolio links:
+  - GitHub: https://github.com/sanjeevmax6
+  - LinkedIn: https://www.linkedin.com/in/sanjeev06/
+  - Website: https://sanjeevmax6.github.io/
+
+constraints:
+  - Do not invent projects, tools, metrics, or responsibilities.
+  - Prefer measurable impact phrasing when evidence exists.
+  - Keep bullets concise and action-oriented.
+  - Tailor wording to role requirements without changing facts.
+
+skills:
+  - Python
+  - SQL
+  - Java
+  - C++
+  - JavaScript
+  - TypeScript
+  - React
+  - Node.js
+  - Flask
+  - FastAPI
+  - AWS
+  - Docker
+  - Kubernetes
+  - Git
+  - Linux
+
+experiences:
+  - id: nokia_internship
+    company: Nokia
+    role: Software Engineering Intern, Agentic AI
+    date_range: September 2025 - Present
+    location: Remote
+    bullets:
+      - Architected an Agentic AI system using LangChain & MCP client/server architecture, producing a multi-node pipeline to fetch, reason over, and generate network testbed config files.
+      - Designed the Orchestration layer using PostgreSQL (JSONB, pgvector) indexing over 5000+ JSON files, and an Airflow based parallelized batch ingestion pipeline for human-in-the-loop reasoning.
+      - Engineered a TypeScript powered agent workspace with session memory and schema-driven editing, thereby reducing a manual workflow from 4 h to 10 min.
+    tech:
+      - LangGraph, MCP Servers, Agentic AI, Vector Retrieval, PostgreSQL, React, TypeScript, Airflow
+    # impact_tags:
+    #   - "[latency|reliability|scale|cost|quality]"
+
+  - id: skillz_internship
+    company: Skillz
+    role: Fullstack Software Engineering Intern
+    date_range: August 2024 - January 2025
+    location: Las Vegas, NV
+    bullets:
+      - Built the MVP Phase Web SDK using React, TypeScript, and Next.js, implementing reusable UI components and integration hooks consumed across 500+ games and 1000+ DAU.
+      - Shipped 20 cross platform features via OTA updates, building the Daily Challenges modal (7-day rewards system) using the skillz-ui component library and React Query optimized state management.
+      - Resolved 10+ critical bugs weekly across Store and Rewards flows, including deep-link failures, cash discrepancies between mobile/web, and Datadog exceptions, by writing unit tests & giving active code reviews.
+    tech:
+      - React, React Native, JavaScript, TypeScript, Java, NextJS, Jest, Git, Jenkins
+    # impact_tags:
+    #   - "[latency|reliability|scale|cost|quality]"
+
+  - id: spider_rd_club
+    company: Nokia
+    role: Software Engineering Intern, Agentic AI
+    date_range: September 2025 - Present
+    location: Remote
+    bullets:
+      - Led development of production-grade, customer-facing applications with over 800 users, by applying object-oriented design principles (OOP), and designing modular architectures using React Native, Node.js, and Firebase.
+      - Designed the Orchestration layer using PostgreSQL (JSONB, pgvector) indexing over 5000+ JSON files, and an Airflow based parallelized batch ingestion pipeline for human-in-the-loop reasoning.
+      - Engineered a TypeScript powered agent workspace with session memory and schema-driven editing, thereby reducing a manual workflow from 4 h to 10 min.
+    tech:
+      - LangGraph, MCP Servers, Agentic AI, Vector Retrieval, PostgreSQL, React, TypeScript, Airflow
+    # impact_tags:
+    #   - "[latency|reliability|scale|cost|quality]"
+
+projects:
+  - id: proj_ntid_chat_app
+    name: Live Captioned Meeting App (Accessibility)
+    bullets:
+      - Built an accessibility enabled meeting app using Node.js, WebSockets, React, & Google’s ASR engine for live captions.
+      - Designed an ASR evaluation pipeline that systematically varies signal-to-noise ratio via white-noise injection, measuring WER (Word Error Rate) impact on live caption output.
+    tech:
+      - Node.js, WebSockets, React, Google ASR, Signal-to-noise
+    links:
+      - https://github.com/sanjeevmax6/NTID-Chat-App
+
+  - id: proj_brevitycloud_term_project
+    name: Brevity Cloud – AI Webpage Summarizer
+    bullets:
+      - Built and deployed a serverless chrome extension using AWS Bedrock and Kendra for real-time, in-browser, contextaware data, handling 100s of concurrent requests (<200ms) via Docker (ECS), Lambda, and IAM-secured API Gateway.
+      - Designed fault-tolerant infrastructure with Terraform-provisioned VPCs and S3 + DynamoDB for reliable document ingestion, retrieval, and secure access control.
+    tech:
+      - AWS, S3, DynamoDB, Kendra, Amplify, Terraform, Docker
+    links:
+      - https://github.com/The-Brevity-Cloud/term-project-team4-brevitycloud
+
+  - id: proj_tcp_rl
+    name: Real-time CI/CD Test Case Prioritization
+    bullets:
+      - Developed a reinforcement learning-based test case prioritization framework to intelligently reorder failing tests, thereby reducing CI pipeline latency by 50% and improving early fault detection.
+      - Built a real-time dashboard using Plotly Dash to visualize the agent’s incremental learning, driven by CI build logs, scraped using Travis CI from popular open-sourced repositories like Kubernetes & OpenXLA.
+    tech:
+      - Python, Travis CI, Reinforcement Learning, Dash
+    links:
+      - https://github.com/sanjeevmax6/tcp-rl
+
+  - id: proj_quant_dev_trial
+    name: Stock Market Microstructure Backtest & Cost Modeling
+    summary: Quant/dev trial implementation project.
+    bullets:
+      - Modeled a trading platform to distribute money orders across 600 trading venues, using a min greedy cost strategy with parallel processing, cache-optimized data flows, and auto-deployment on AWS EC2 via Terraform.
+      - Designed real-time Kafka streaming, to simulate step-by-step buying with observability for cost & fill efficiency.
+    tech:
+      - Python, NumPy, Kafka, Terraform, Backtesting
+    links:
+      - https://github.com/sanjeevmax6/quant-dev-trial-sanjeev

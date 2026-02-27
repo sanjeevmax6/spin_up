@@ -5,10 +5,11 @@ from pathlib import Path
 import typer
 
 from jobpipe.config import AppConfig, load_env_settings
+from jobpipe.graph import execute_graph_pipeline
 from jobpipe.llm import build_llm_client
-from jobpipe.pipeline import execute_pipeline, parse_rows_csv
 from jobpipe.rules import load_rules
 from jobpipe.sheets import GoogleSheetsClient
+from jobpipe.utils.rows import parse_rows_csv
 
 app = typer.Typer(no_args_is_help=True, add_completion=False)
 
@@ -54,7 +55,7 @@ def prep(
     rules = load_rules(rules_path)
     llm_client = build_llm_client(env.openai_api_key, app_cfg.model, dry_run=dry_run)
 
-    results, run_dir = execute_pipeline(
+    results, run_dir = execute_graph_pipeline(
         rows=row_numbers,
         app_config=app_cfg,
         rule_set=rules,

@@ -10,37 +10,15 @@ from pydantic import ValidationError
 
 from jobpipe.config import AppConfig
 from jobpipe.models import JobRow, RowResult
-from jobpipe.prompts import (
+from jobpipe.prompt_builders import (
     build_cover_letter_prompt,
     build_linkedin_prompt,
     build_resume_prompt,
 )
-from jobpipe.renderer import slugify, write_docx, write_markdown, write_pdf
 from jobpipe.rules import evaluate_row_rules
 from jobpipe.sheets import fetch_job_description
-
-
-def parse_rows_csv(rows_csv: str) -> list[int]:
-    rows: list[int] = []
-    for part in rows_csv.split(","):
-        stripped = part.strip()
-        if not stripped:
-            continue
-        rows.append(int(stripped))
-    deduped = sorted(set(rows))
-    return deduped
-
-
-def validate_required_columns(raw_row: dict[str, Any]) -> list[str]:
-    normalized = {k.strip().lower() for k in raw_row.keys() if k}
-    missing = [col for col in ["company", "role_title", "location"] if col not in normalized]
-    has_description_source = any(
-        col in normalized
-        for col in ["job_posting_url", "job_description_url", "job_description_text"]
-    )
-    if not has_description_source:
-        missing.append("job_posting_url_or_job_description_url")
-    return missing
+from jobpipe.utils.rendering import slugify, write_docx, write_markdown, write_pdf
+from jobpipe.utils.rows import validate_required_columns
 
 
 def build_row_output_dir(run_dir: Path, row: JobRow) -> Path:

@@ -14,6 +14,11 @@ class AppConfig(BaseModel):
     tab: str = "Sheet1"
     output_root: str = "outputs"
     model: str = "gpt-4.1-mini"
+    prompt_dir: str = "jobpipe/prompts"
+    resume_context_path: str = "resume_context.yaml"
+    restrictions_path: str = "restrictions.yaml"
+    non_resume_node_retries: int = 2
+    non_resume_retry_backoff_seconds: float = 1.0
     row_lookup_mode: str = "sheet_row"
     row_id_column: str = "sno"
     row_id_column_index: int | None = None
