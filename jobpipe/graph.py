@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import logging
 from dataclasses import asdict
 from datetime import datetime
 from pathlib import Path
@@ -12,6 +13,8 @@ from jobpipe import agent
 from jobpipe.models import RowResult
 from jobpipe.utils.rendering import slugify
 from jobpipe.state import GraphState
+
+logger = logging.getLogger(__name__)
 
 
 def _route_after_ingest(state: GraphState) -> str:
@@ -83,15 +86,18 @@ def execute_graph_pipeline(
     output_dir: str | Path | None = None,
     dry_run: bool = False,
 ) -> tuple[list[RowResult], Path]:
+    logger.info("starting graph pipeline rows=%s dry_run=%s", rows, dry_run)
     timestamp = datetime.now().strftime("%Y%m%d-%H%M%S")
     run_dir = Path(output_dir or app_config.output_root) / timestamp
     run_dir.mkdir(parents=True, exist_ok=True)
 
     raw_rows = sheets_client.get_rows(app_config.sheet_id, app_config.tab, rows, app_config)
+    logger.info("loaded sheet rows found=%s requested=%s", len(raw_rows), len(rows))
     graph = build_row_graph()
 
     results: list[RowResult] = []
     for row_number in rows:
+        logger.info("processing row=%s", row_number)
         raw_row = raw_rows.get(row_number)
         if raw_row:
             company = str(raw_row.get("company", "row")).strip() or "row"
@@ -123,6 +129,12 @@ def execute_graph_pipeline(
                 flat_errors.append(f"{node}: {err}")
         token_usage = _sum_usage(final_state.get("token_usage_by_node", {}))
         status = "succeeded" if _is_row_success(statuses) else "failed"
+        logger.info(
+            "row=%s completed status=%s node_status=%s",
+            row_number,
+            status,
+            statuses,
+        )
 
         results.append(
             RowResult(
@@ -145,20 +157,15 @@ def execute_graph_pipeline(
         ],
     }
     (run_dir / "run_report.json").write_text(json.dumps(run_report, indent=2), encoding="utf-8")
+    logger.info("run finished path=%s succeeded=%s failed=%s", run_dir, run_report["succeeded"], run_report["failed"])
     return results, run_dir
 
 
 def _is_row_success(statuses: dict[str, str]) -> bool:
-    required = ["ingest_row_node", "validate_context_node", "resume_node", "report_node"]
+    required = ["ingest_row_node", "validate_context_node", "resume_node", "render_node", "report_node"]
     for key in required:
         if statuses.get(key) != "succeeded":
             return False
-    if statuses.get("cover_letter_node") == "failed":
-        return False
-    if statuses.get("linkedin_search_node") == "failed":
-        return False
-    if statuses.get("outreach_node") == "failed":
-        return False
     return True
 
 

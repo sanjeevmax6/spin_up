@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from typing import Any
 
 import requests
@@ -7,6 +8,8 @@ from bs4 import BeautifulSoup
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from pydantic import BaseModel
+
+logger = logging.getLogger(__name__)
 
 
 class GoogleSheetsClient:
@@ -24,6 +27,7 @@ class GoogleSheetsClient:
         row_numbers: list[int],
         app_config: BaseModel,
     ) -> dict[int, dict[str, Any]]:
+        logger.info("reading sheet tab=%s ids=%s", tab, row_numbers)
         if not row_numbers:
             return {}
         sorted_rows = sorted(set(row_numbers))
@@ -36,6 +40,7 @@ class GoogleSheetsClient:
         )
         values = result.get("values", [])
         if not values:
+            logger.warning("sheet read returned empty values")
             return {}
         header_row_number = getattr(app_config, "header_row_number", None)
         header_idx: int | None
@@ -48,13 +53,14 @@ class GoogleSheetsClient:
                 search_rows=int(getattr(app_config, "header_search_rows", 50)),
             )
         if header_idx is None:
+            logger.error("unable to detect header row")
             return {}
         if header_idx >= len(values):
             return {}
         headers = values[header_idx]
         mode = str(getattr(app_config, "row_lookup_mode", "sheet_row")).strip().lower()
         if mode == "sno":
-            return _map_rows_by_id_column(
+            mapped = _map_rows_by_id_column(
                 values=values,
                 header_idx=header_idx,
                 headers=headers,
@@ -63,12 +69,16 @@ class GoogleSheetsClient:
                 id_field=str(getattr(app_config, "row_id_column", "sno")),
                 id_column_index=getattr(app_config, "row_id_column_index", None),
             )
-        return _map_rows_by_sheet_index(
+            logger.info("sheet mapped rows by sno found=%s", len(mapped))
+            return mapped
+        mapped = _map_rows_by_sheet_index(
             values=values,
             headers=headers,
             target_rows=sorted_rows,
             aliases=getattr(app_config, "column_aliases", {}),
         )
+        logger.info("sheet mapped rows by sheet index found=%s", len(mapped))
+        return mapped
 
 
 def _normalize_key(value: str) -> str:

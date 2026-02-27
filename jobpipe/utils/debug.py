@@ -1,18 +1,16 @@
 from __future__ import annotations
 
 import json
-from datetime import datetime
-from pathlib import Path
 from typing import Any
 
 from jobpipe.state import GraphState
 
 
 def pretty_print_state(state: GraphState, label: str | None = None) -> None:
-    """Pretty-print GraphState in a readable JSON form."""
+    """Pretty-print top-level GraphState keys with shallow values only."""
     title = label or "GraphState"
     print(f"\n{'=' * 24} {title} {'=' * 24}")
-    print(json.dumps(_normalize(state), indent=2, ensure_ascii=False))
+    print(json.dumps(_normalize_graph_state(state), indent=2, ensure_ascii=False))
     print("=" * (50 + len(title)))
 
 
@@ -36,30 +34,38 @@ def preview_merged_state(state: GraphState, updates: dict[str, Any]) -> GraphSta
     return merged  # type: ignore[return-value]
 
 
-def _normalize(value: Any) -> Any:
+def _normalize_graph_state(state: GraphState) -> dict[str, Any]:
+    return {str(k): _normalize_value(v) for k, v in state.items()}
+
+
+def _normalize_value(value: Any) -> Any:
     if value is None:
         return None
     if isinstance(value, (str, int, float, bool)):
         return value
-    if isinstance(value, Path):
-        return str(value)
-    if isinstance(value, datetime):
-        return value.isoformat()
     if isinstance(value, dict):
-        return {str(k): _normalize(v) for k, v in value.items()}
+        # Shallow dict: do not recurse deeply into nested objects.
+        return {str(k): _shallow_repr(v) for k, v in value.items()}
     if isinstance(value, list):
-        return [_normalize(v) for v in value]
+        return [_shallow_repr(v) for v in value]
     if isinstance(value, tuple):
-        return [_normalize(v) for v in value]
-    if hasattr(value, "model_dump"):
-        try:
-            return _normalize(value.model_dump())
-        except Exception:  # noqa: BLE001
-            return str(value)
-    if hasattr(value, "__dict__"):
-        try:
-            return _normalize(vars(value))
-        except Exception:  # noqa: BLE001
-            return str(value)
-    return str(value)
+        return [_shallow_repr(v) for v in value]
+    return _object_ref(value)
 
+
+def _shallow_repr(value: Any) -> Any:
+    if value is None:
+        return None
+    if isinstance(value, (str, int, float, bool)):
+        return value
+    if isinstance(value, dict):
+        return f"<dict len={len(value)}>"
+    if isinstance(value, list):
+        return f"<list len={len(value)}>"
+    if isinstance(value, tuple):
+        return f"<tuple len={len(value)}>"
+    return _object_ref(value)
+
+
+def _object_ref(value: Any) -> str:
+    return f"<{value.__class__.__name__} at 0x{id(value):x}>"

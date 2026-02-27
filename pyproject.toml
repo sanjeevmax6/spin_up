@@ -9,6 +9,7 @@ dependencies = [
   "google-api-python-client>=2.170.0",
   "google-auth>=2.40.0",
   "langgraph>=0.2.60",
+  "docxtpl>=0.20.0",
   "openai>=1.76.0",
   "pydantic>=2.7.0",
   "pydantic-settings>=2.2.1",

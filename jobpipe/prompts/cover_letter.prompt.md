@@ -5,8 +5,8 @@ You are drafting a short narrative cover letter.
 Job context:
 {row_context}
 
-Candidate resume draft:
-{resume_full_md}
+Candidate refined resume JSON:
+{refined_resume_json}
 
 Task:
 - Write a 250-350 word cover letter.
@@ -15,4 +15,3 @@ Task:
 
 Output:
 Markdown cover letter only.
-

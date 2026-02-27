@@ -4,7 +4,7 @@ Local Python CLI for job application personalization:
 - reads selected Google Sheet rows by `Sno` (or literal sheet row number)
 - runs a LangGraph workflow per row (resume -> parallel cover/linkedin -> outreach)
 - validates rows, resume context, and hard rules
-- generates modular resume patch/full draft, cover letter, linkedin targets, and outreach drafts
+- generates JSON-first selected/refined resume artifacts, then renders resume from a DOCX template
 - writes markdown, DOCX, PDF, and run metadata
 
 ## Setup
@@ -48,10 +48,11 @@ Exit codes:
 ## Output
 
 `outputs/<timestamp>/<company>-<role>/` contains:
-- `resume_patch.md`
-- `resume_full.md`
+- `selected_ids.json`
+- `refined_resume.json`
+- `trimmed_resume.json`
 - `resume.docx`
-- `resume.pdf`
+- `resume.pdf` (best effort; warning logged if no converter configured)
 - `cover_letter.md`
 - `linkedin_targets.md`
 - `linkedin_connection_notes.md`
@@ -62,6 +63,11 @@ Exit codes:
 
 Run-level:
 - `outputs/<timestamp>/run_report.json`
+
+Notes:
+- Profile summary/portfolio links and skills are treated as static template content.
+- Dynamic generation focuses on experiences/projects only.
+- One-page policy trims projects first (4 -> 3 -> 2) before touching experiences.
 
 ## Code Layout
 

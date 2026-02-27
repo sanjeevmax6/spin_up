@@ -1,10 +1,17 @@
 sheet_id: "1npxLaQ4p69xWaJfdjf6Zj8NdvOLDzdMCNvSz8oUcwaA"
 tab: "4.0"
 output_root: "outputs"
-model: "gpt-4.1-mini"
+model: "gpt-5.1"
 prompt_dir: "jobpipe/prompts"
 resume_context_path: "resume_context.yaml"
 restrictions_path: "restrictions.yaml"
+resume_template_path: "templates/resume_template.docx"
+pdf_converter_command: ""
+experience_bullet_max_words: 16
+project_bullet_max_words: 15
+max_experiences: 3
+max_projects_initial: 4
+min_projects: 2
 non_resume_node_retries: 2
 non_resume_retry_backoff_seconds: 1.0
 row_lookup_mode: "sno" # "sno" uses Sno column; "sheet_row" uses literal sheet row numbers

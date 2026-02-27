@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 from pathlib import Path
 
 import typer
@@ -28,7 +29,16 @@ def prep(
     output_dir: str | None = typer.Option(None, "--output-dir", help="Output directory override"),
     config_path: str = typer.Option("config.yaml", "--config", help="Path to config yaml"),
     rules_path: str = typer.Option("rules.yaml", "--rules", help="Path to rules yaml"),
+    log_level: str = typer.Option("INFO", "--log-level", help="Logging level (DEBUG, INFO, WARNING, ERROR)"),
 ) -> None:
+    numeric_level = getattr(logging, str(log_level).upper(), None)
+    if not isinstance(numeric_level, int):
+        raise typer.BadParameter("Invalid --log-level. Use DEBUG, INFO, WARNING, or ERROR.")
+    logging.basicConfig(
+        level=numeric_level,
+        format="%(asctime)s %(levelname)s %(name)s - %(message)s",
+    )
+
     app_cfg = AppConfig.load(config_path)
     if sheet_id:
         app_cfg.sheet_id = sheet_id

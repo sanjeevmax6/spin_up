@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import logging
 import re
 from pathlib import Path
 
@@ -7,6 +8,8 @@ from docx import Document
 from reportlab.lib.pagesizes import LETTER
 from reportlab.lib.units import inch
 from reportlab.pdfgen import canvas
+
+logger = logging.getLogger(__name__)
 
 
 def slugify(value: str) -> str:
@@ -18,6 +21,7 @@ def slugify(value: str) -> str:
 def write_markdown(path: Path, content: str) -> Path:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(content, encoding="utf-8")
+    logger.info("wrote markdown: %s", path)
     return path
 
 
@@ -30,6 +34,7 @@ def write_docx(path: Path, content: str) -> Path:
         else:
             doc.add_paragraph("")
     doc.save(path)
+    logger.info("wrote docx: %s", path)
     return path
 
 
@@ -58,6 +63,7 @@ def write_pdf(path: Path, content: str) -> Path:
             c.setFont("Helvetica", 11)
             y = height - margin
     c.save()
+    logger.info("wrote pdf: %s", path)
     return path
 
 
@@ -76,4 +82,3 @@ def _wrap_line(text: str, max_chars: int) -> list[str]:
             current = word
     lines.append(current)
     return lines
-

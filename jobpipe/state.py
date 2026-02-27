@@ -22,12 +22,17 @@ def merge_error_dict(
 
 
 class GraphArtifacts(TypedDict, total=False):
-    resume_patch_md: str
-    resume_full_md: str
+    selected_ids_json: dict[str, Any]
+    refined_resume_json: dict[str, Any]
+    trimmed_resume_json: dict[str, Any]
+    trim_log: list[str]
     cover_letter_md: str
     linkedin_targets_md: str
     linkedin_notes_md: str
     cold_email_md: str
+    selected_ids_file: str
+    refined_resume_file: str
+    trimmed_resume_file: str
     resume_docx: str
     resume_pdf: str
     cover_letter_docx: str
